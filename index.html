@@ -35,6 +35,12 @@
     --warm-bg: #F5E9D2;
     --alert: #8E3B2E;
     --alert-bg: #F6E2DD;
+    --maci-bg: #F6E9CE;
+    --maci-ink: #4A3410;
+    --maci-line: #E2CEA4;
+    --maci-night-bg: #1D2A3A;
+    --maci-night-ink: #E7EEF7;
+    --maci-night-line: #2C405A;
     --radius: 14px;
     --shadow: 0 1px 2px rgba(24,36,30,.06), 0 6px 18px rgba(24,36,30,.05);
   }
@@ -52,6 +58,12 @@
       --warm-bg: #2B2317;
       --alert: #E09384;
       --alert-bg: #2E1C18;
+      --maci-bg: #2C2312;
+      --maci-ink: #F0DCB2;
+      --maci-line: #43351A;
+      --maci-night-bg: #16202C;
+      --maci-night-ink: #D8E4F0;
+      --maci-night-line: #24344A;
       --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.28);
     }
   }
@@ -68,6 +80,12 @@
     --warm-bg: #2B2317;
     --alert: #E09384;
     --alert-bg: #2E1C18;
+    --maci-bg: #2C2312;
+    --maci-ink: #F0DCB2;
+    --maci-line: #43351A;
+    --maci-night-bg: #16202C;
+    --maci-night-ink: #D8E4F0;
+    --maci-night-line: #24344A;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.28);
   }
 
@@ -197,6 +215,29 @@
   footer p { margin: 0 0 8px; max-width: 70ch; }
   a { color: var(--accent); }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+  .maci {
+    display: flex; align-items: center; gap: 14px; margin-block: 22px 0;
+    background: var(--maci-bg); color: var(--maci-ink);
+    border: 1px solid var(--maci-line); border-radius: var(--radius);
+    padding: 14px 16px; text-decoration: none; max-width: 62ch;
+  }
+  .maci:hover { filter: brightness(1.04); }
+  .maci:focus-visible { outline: 2px solid var(--maci-ink); outline-offset: 2px; }
+  .maci-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+  .maci-kicker {
+    font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .72;
+  }
+  .maci-name {
+    font-family: "Fraunces", Georgia, serif; font-size: 19px; font-weight: 600; line-height: 1.2;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .maci-hint { font-size: 12px; opacity: .66; }
+  .maci .arrow { font-size: 20px; line-height: 1; flex: none; }
+  .maci-end {
+    margin-block: 36px 0; max-width: none;
+    background: var(--maci-night-bg); color: var(--maci-night-ink); border-color: var(--maci-night-line);
+  }
 </style>
 </head>
 <body>
@@ -209,6 +250,15 @@
       Az archívumos részek ingyenesek, reklámmentesek, és nem az algoritmus választja a következőt.</p>
     <p class="howto"><strong>A tévén:</strong> koppints a mesére — megnyílik a YouTube vagy a Disney+ app —,
       majd a lejátszóban a <span class="cast">⌗</span> cast ikonra, és válaszd a nappali tévét.</p>
+
+    <a class="maci" id="introBtn" href="https://www.youtube.com/watch?v=VuigqEaj57A" target="_blank" rel="noopener">
+      <span class="maci-body">
+        <span class="maci-kicker">Kezdődik az esti mese</span>
+        <span class="maci-name" id="introName">Esti mese – 1. változat</span>
+        <span class="maci-hint">véletlen TV Maci a <span id="introCount">21</span> főcímből</span>
+      </span>
+      <span class="arrow">&rarr;</span>
+    </a>
   </header>
 
   <div class="filter" role="group" aria-label="Szűrés hossz szerint">
@@ -529,6 +579,15 @@
     </ul>
   </div>
 
+  <a class="maci maci-end" id="outroBtn" href="https://www.youtube.com/watch?v=Ixbc_ZY9NV4" target="_blank" rel="noopener">
+    <span class="maci-body">
+      <span class="maci-kicker">Vége, jó éjszakát</span>
+      <span class="maci-name" id="outroName">Jó éjszakát</span>
+      <span class="maci-hint">véletlen záró szignál a <span id="outroCount">12</span> változatból</span>
+    </span>
+    <span class="arrow">&rarr;</span>
+  </a>
+
   <footer>
     <p>Az archívum kínálata forog: a 2026. szeptember 14-i listából 51 linkből 8 mára elhalt. Ezért ez az oldal
       sorozatoldalakra mutat, nem epizódokra — azok maradnak. Havonta érdemes ránézni, mi került vissza.</p>
@@ -538,6 +597,31 @@
 </div>
 
 <script>
+  var TVMACI = {"intro":[{"id":"VuigqEaj57A","label":"Esti mese – 1. változat"},{"id":"3AsdL0-U8a8","label":"Esti mese – 2. változat"},{"id":"UycF_PUxeRQ","label":"Az első színes TV Maci"},{"id":"Iov8JdmvNmY","label":"TV Maci 1"},{"id":"OQt8GwgNhgQ","label":"Esti Mese főcím"},{"id":"ccuW6em6chQ","label":"TV Maci eleje"},{"id":"mtkDdq1qsB4","label":"Tornázós főcím"},{"id":"1sSZAotvDgE","label":"Rendrakásos főcím"},{"id":"5zXD2t-zMqE","label":"Lego dobozos főcím"},{"id":"nEDAs_jDkW0","label":"Gyermeknapi változat"},{"id":"2D37iIOfY1Q","label":"Télapós változat"},{"id":"sfssb4pjkEE","label":"Húsvéti változat"},{"id":"P6D3ZgybPSc","label":"Karácsonyi változat"},{"id":"d5WJsA3BCCw","label":"Karácsonyi esti mese főcím"},{"id":"WxYWvEeKRNc","label":"A hetvenes évekből"},{"id":"vAFvdvv-o1M","label":"A 70-es évekből"},{"id":"Dw9RMS7TYOg","label":"MTV1, 1989. május 1."},{"id":"61B_0YwQr6M","label":"Duna TV esti mese szignál"},{"id":"dB2eycYDQv0","label":"Karácsonyi üdvözlet (Nemzeti Archívum)"},{"id":"H78IUcv9Cok","label":"November 7-i változat"},{"id":"2HJIyUTXPQQ","label":"Megújult TV Maci"}],"outro":[{"id":"9SV7fX7Wgr0","label":"Kisautóval játszós záró"},{"id":"RgAUNAmqDzQ","label":"Kisautóval játszós záró (HD)"},{"id":"gHZRbe5Xd1w","label":"Esti mese vége főcím"},{"id":"885D1Po_P2w","label":"TV Maci – befejezés"},{"id":"ope69VrBLpg","label":"Nagykockás takarós záró"},{"id":"rlRc7pLmVIA","label":"Füles Mackó záródal"},{"id":"Ixbc_ZY9NV4","label":"Jó éjszakát"},{"id":"rQOqSPSjulw","label":"Negyedik végefőcím (HD)"},{"id":"6ExI2JtuGRA","label":"Esti mese vége"},{"id":"_rq07TLSugY","label":"M2 karácsonyi záró"},{"id":"t2XnBKjz07A","label":"Évadzáró"},{"id":"tfoKcwkUM_o","label":"M2 adászárás"}]};
+
+  (function () {
+    function wire(btnId, nameId, countId, list) {
+      var btn = document.getElementById(btnId);
+      var name = document.getElementById(nameId);
+      var count = document.getElementById(countId);
+      if (!btn || !list || !list.length) return;
+      var last = -1;
+      function roll() {
+        var i = Math.floor(Math.random() * list.length);
+        if (list.length > 1 && i === last) i = (i + 1) % list.length;
+        last = i;
+        btn.href = 'https://www.youtube.com/watch?v=' + list[i].id;
+        name.textContent = list[i].label;
+      }
+      if (count) count.textContent = String(list.length);
+      roll();
+      // minden koppintás után új sorsolás, hogy legközelebb más jöjjön
+      btn.addEventListener('click', function () { setTimeout(roll, 400); });
+    }
+    wire('introBtn', 'introName', 'introCount', TVMACI.intro);
+    wire('outroBtn', 'outroName', 'outroCount', TVMACI.outro);
+  })();
+
   (function () {
     var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
     var cards = Array.prototype.slice.call(document.querySelectorAll('.card[data-max]'));
