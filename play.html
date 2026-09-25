@@ -119,6 +119,11 @@
   .play:hover { filter: brightness(1.07); }
   .play:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   .play.off { background: var(--surface-2); color: var(--ink-soft); pointer-events: none; }
+  .actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .actions .play { margin-top: 14px; }
+  .actions .clear { margin-top: 14px; }
+  .maci-sec .actions .clear { border-color: var(--maci-line); color: var(--maci-ink); }
+  .night-sec .actions .clear { border-color: var(--night-line); color: var(--night-ink); }
 
   .bar {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
@@ -224,6 +229,8 @@ var DATA = {"sections":[{"key":"thomas-hu-classic","title":"Thomas, a gőzmozdon
     g.className = 'tiles';
     items.forEach(function (it) { g.appendChild(tile(it, kind)); });
     wrapEl.appendChild(g);
+    var row = document.createElement('div');
+    row.className = 'actions';
     var a = document.createElement('a');
     a.className = 'play off';
     a.target = '_blank';
@@ -231,7 +238,14 @@ var DATA = {"sections":[{"key":"thomas-hu-classic","title":"Thomas, a gőzmozdon
     a.href = '#';
     a.textContent = 'Lejátszás';
     a.setAttribute('data-play', '1');
-    wrapEl.appendChild(a);
+    row.appendChild(a);
+    var cl = document.createElement('button');
+    cl.className = 'clear';
+    cl.type = 'button';
+    cl.textContent = 'Törlés';
+    cl.setAttribute('data-clear', '1');
+    row.appendChild(cl);
+    wrapEl.appendChild(row);
     return wrapEl;
   }
 
@@ -301,11 +315,24 @@ var DATA = {"sections":[{"key":"thomas-hu-classic","title":"Thomas, a gőzmozdon
   if (!outro) outro = pick(DATA.outro);
   render();
 
-  document.getElementById('clear').addEventListener('click', function () {
+  function resetAll(btn) {
     sel = [];
     intro = pick(DATA.intro);
     outro = pick(DATA.outro);
     save(); render();
+    if (btn) {
+      var old = btn.textContent;
+      btn.textContent = 'Törölve';
+      setTimeout(function () { btn.textContent = old; }, 1100);
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-clear]'), function (b) {
+    b.addEventListener('click', function () { resetAll(b); });
+  });
+
+  document.getElementById('clear').addEventListener('click', function () {
+    resetAll(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 })();
