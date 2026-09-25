@@ -606,7 +606,7 @@
 </div>
 
 <script>
-  var TVMACI = {"intro":[{"id":"VuigqEaj57A","label":"Esti mese – 1. változat"},{"id":"3AsdL0-U8a8","label":"Esti mese – 2. változat"},{"id":"UycF_PUxeRQ","label":"Az első színes TV Maci"},{"id":"Iov8JdmvNmY","label":"TV Maci 1"},{"id":"OQt8GwgNhgQ","label":"Esti Mese főcím"},{"id":"ccuW6em6chQ","label":"TV Maci eleje"},{"id":"mtkDdq1qsB4","label":"Tornázós főcím"},{"id":"1sSZAotvDgE","label":"Rendrakásos főcím"},{"id":"5zXD2t-zMqE","label":"Lego dobozos főcím"},{"id":"nEDAs_jDkW0","label":"Gyermeknapi változat","season":"gyereknap"},{"id":"2D37iIOfY1Q","label":"Télapós változat","season":"dec"},{"id":"sfssb4pjkEE","label":"Húsvéti változat","season":"husvet"},{"id":"P6D3ZgybPSc","label":"Karácsonyi változat","season":"dec"},{"id":"d5WJsA3BCCw","label":"Karácsonyi esti mese főcím","season":"dec"},{"id":"WxYWvEeKRNc","label":"A hetvenes évekből"},{"id":"vAFvdvv-o1M","label":"A 70-es évekből"},{"id":"Dw9RMS7TYOg","label":"MTV1, 1989. május 1."},{"id":"dB2eycYDQv0","label":"Karácsonyi üdvözlet (Nemzeti Archívum)","season":"dec"},{"id":"H78IUcv9Cok","label":"November 7-i változat","season":"nov7"}],"outro":[{"id":"9SV7fX7Wgr0","label":"Kisautóval játszós záró"},{"id":"RgAUNAmqDzQ","label":"Kisautóval játszós záró (HD)"},{"id":"gHZRbe5Xd1w","label":"Esti mese vége főcím"},{"id":"885D1Po_P2w","label":"TV Maci – befejezés"},{"id":"ope69VrBLpg","label":"Nagykockás takarós záró"},{"id":"Ixbc_ZY9NV4","label":"Jó éjszakát"},{"id":"rQOqSPSjulw","label":"Negyedik végefőcím (HD)"},{"id":"_rq07TLSugY","label":"M2 karácsonyi záró","season":"dec"},{"id":"tfoKcwkUM_o","label":"M2 adászárás"}]};
+  var TVMACI = {"intro":[{"id":"VuigqEaj57A","label":"Esti mese – 1. változat"},{"id":"3AsdL0-U8a8","label":"Esti mese – 2. változat"},{"id":"UycF_PUxeRQ","label":"Az első színes TV Maci"},{"id":"Iov8JdmvNmY","label":"TV Maci 1"},{"id":"OQt8GwgNhgQ","label":"Esti Mese főcím"},{"id":"ccuW6em6chQ","label":"TV Maci eleje"},{"id":"mtkDdq1qsB4","label":"Tornázós főcím"},{"id":"1sSZAotvDgE","label":"Rendrakásos főcím"},{"id":"5zXD2t-zMqE","label":"Lego dobozos főcím"},{"id":"nEDAs_jDkW0","label":"Gyermeknapi változat","season":"gyereknap"},{"id":"2D37iIOfY1Q","label":"Télapós változat","season":"mikulas"},{"id":"sfssb4pjkEE","label":"Húsvéti változat","season":"husvet"},{"id":"P6D3ZgybPSc","label":"Karácsonyi változat","season":"karacsony"},{"id":"d5WJsA3BCCw","label":"Karácsonyi esti mese főcím","season":"karacsony"},{"id":"WxYWvEeKRNc","label":"A hetvenes évekből"},{"id":"vAFvdvv-o1M","label":"A 70-es évekből"},{"id":"Dw9RMS7TYOg","label":"MTV1, 1989. május 1."},{"id":"dB2eycYDQv0","label":"Karácsonyi üdvözlet (Nemzeti Archívum)","season":"karacsony"},{"id":"H78IUcv9Cok","label":"November 7-i változat","season":"nov7"}],"outro":[{"id":"9SV7fX7Wgr0","label":"Kisautóval játszós záró"},{"id":"RgAUNAmqDzQ","label":"Kisautóval játszós záró (HD)"},{"id":"gHZRbe5Xd1w","label":"Esti mese vége főcím"},{"id":"885D1Po_P2w","label":"TV Maci – befejezés"},{"id":"ope69VrBLpg","label":"Nagykockás takarós záró"},{"id":"Ixbc_ZY9NV4","label":"Jó éjszakát"},{"id":"rQOqSPSjulw","label":"Negyedik végefőcím (HD)"},{"id":"_rq07TLSugY","label":"M2 karácsonyi záró","season":"karacsony"},{"id":"tfoKcwkUM_o","label":"M2 adászárás"}]};
 
   (function () {
     // szezonalis TV Macik: a rovid alkalmak (husvet, gyereknap, nov. 7.) kizarolagosak,
@@ -628,13 +628,14 @@
     function seasonOK(s) {
       if (!s) return true;
       var now = new Date(), y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
-      if (s === 'dec') return m === 12;
+      if (s === 'karacsony') return m === 12 && d >= 22 && d <= 31;
+      if (s === 'mikulas') return m === 12 && d >= 5 && d <= 6;
       if (s === 'nov7') return m === 11 && d >= 5 && d <= 7;
       if (s === 'gyereknap') { var cd = childrensDay(y), st = new Date(cd); st.setDate(cd.getDate() - 2); return between(now, st, cd); }
       if (s === 'husvet') { var e = easter(y), gf = new Date(e), em = new Date(e); gf.setDate(e.getDate() - 2); em.setDate(e.getDate() + 1); return between(now, gf, em); }
       return true;
     }
-    var EXCLUSIVE = { husvet: 1, gyereknap: 1, nov7: 1 };
+    var EXCLUSIVE = { karacsony: 1, mikulas: 1, husvet: 1, gyereknap: 1, nov7: 1 };
     function poolOf(list) {
       var must = list.filter(function (r) { return r.season && EXCLUSIVE[r.season] && seasonOK(r.season); });
       if (must.length) return must;
